@@ -234,8 +234,12 @@ public class ProjectsController {
 	 * @param id
 	 */
 	public String getProjectDataById(String id) {
-		// TODO - implement ProjectsController.getProjectDataById
-		throw new UnsupportedOperationException();
+		Project foundProject = searchProject(id);
+		if (foundProject == null) {
+			return "El proyecto con ID " + id + " no existe.";
+		}
+
+		return foundProject.toString();
 	}
 
 	/**
@@ -243,8 +247,12 @@ public class ProjectsController {
 	 * @param name
 	 */
 	public String getProjectDataByName(String name) {
-		// TODO - implement ProjectsController.getProjectDataByName
-		throw new UnsupportedOperationException();
+		Project foundProject = searchProjectByName(name);
+		if (foundProject == null) {
+			return "El proyecto con nombre " + name + " no existe.";
+		}
+
+		return foundProject.toString();
 	}
 
 	/**
@@ -256,10 +264,24 @@ public class ProjectsController {
 	 * @param desc
 	 * @param statementURL
 	 */
-	public String editProject(String projectId, String name, String benefCompany, ArrayList<String> keyWords, String desc,
-			String statementURL) {
-		// TODO - implement ProjectsController.editProject
-		throw new UnsupportedOperationException();
+	public Response<Void> editProject(String projectId, String name, String benefCompany, ArrayList<String> keyWords,
+			String desc,
+			String statementURL, int projectTypeIndex) {
+		Project foundProject = searchProject(projectId);
+		if (foundProject == null) {
+			return Response.failure("El proyecto con ID " + projectId + " no existe.");
+		}
+
+		ProjectType projectType = ProjectType.getByIndex(projectTypeIndex);
+
+		foundProject.setName(name);
+		foundProject.setBeneficiaryCompany(benefCompany);
+		foundProject.setKeyWords(keyWords);
+		foundProject.setDescription(desc);
+		foundProject.setStatementURL(statementURL);
+		foundProject.setProjectType(projectType);
+
+		return Response.success("Proyecto " + name + " editado con éxito.");
 	}
 
 	/**
@@ -271,10 +293,19 @@ public class ProjectsController {
 	 * @param phaseIndex
 	 * @param typeIndex
 	 */
-	public String addProjectResult(String projectId, LocalDate date, int group, String url, int phaseIndex,
+	public Response<Void> addProjectResult(String projectId, LocalDate date, int group, String url, int phaseIndex,
 			int typeIndex) {
-		// TODO - implement ProjectsController.addProjectResult
-		throw new UnsupportedOperationException();
+		Project foundProject = searchProject(projectId);
+		if (foundProject == null) {
+			return Response.failure("El proyecto con ID " + projectId + " no existe.");
+		}
+		ResultType type = ResultType.getByIndex(typeIndex);
+		CyclePhase phase = CyclePhase.getByIndex(phaseIndex);
+
+		Result result = new Result(projectId, group, url, phase, type);
+
+		foundProject.addResult(result);
+		return Response.success("Resultado del proyecto " + foundProject.getName() + " agregado con éxito.");
 	}
 
 	/**
@@ -282,8 +313,13 @@ public class ProjectsController {
 	 * @param projectId
 	 */
 	public String deleteProject(String projectId) {
-		// TODO - implement ProjectsController.deleteProject
-		throw new UnsupportedOperationException();
+		Project foundProject = searchProject(projectId);
+		if (foundProject == null) {
+			return "El proyecto con ID " + projectId + " no existe.";
+		}
+
+		foundProject.setActive(false);
+		return "Proyecto " + foundProject.getName() + " eliminado con éxito.";
 	}
 
 	/**
@@ -296,8 +332,15 @@ public class ProjectsController {
 	}
 
 	public ArrayList<String> getProjectsWithoutResult() {
-		// TODO - implement ProjectsController.getProjectsWithoutResult
-		throw new UnsupportedOperationException();
+		ArrayList<String> projectsWithoutResult = new ArrayList<>();
+
+		for (Project project : projects) {
+			if (project.getResults().isEmpty()) {
+				projectsWithoutResult.add(project.toString());
+			}
+		}
+
+		return projectsWithoutResult;
 	}
 
 }

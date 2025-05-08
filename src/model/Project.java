@@ -170,4 +170,7 @@ public class Project {
 		return this.results;
 	}
 
+	public void setProjectType(ProjectType projectType) {
+		this.projectType = projectType;
+	}
 }
