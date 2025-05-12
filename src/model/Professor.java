@@ -45,4 +45,9 @@ public class Professor {
 	public ArrayList<Course> getCourses() {
 		return courses;
 	}
+
+	@Override
+	public String toString() {
+		return "ID: " + idNumber + ", Nombre: " + name + ", Email: " + email;
+	}
 }

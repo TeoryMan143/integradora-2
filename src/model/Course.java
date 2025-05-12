@@ -50,4 +50,9 @@ public class Course {
 	public int getCredits() {
 		return this.credits;
 	}
+
+	@Override
+	public String toString() {
+		return "Nombre: " + name + ", Descripción: " + description + ", Código: " + code + ", Créditos: " + credits;
+	}
 }

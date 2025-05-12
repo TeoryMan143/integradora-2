@@ -78,11 +78,11 @@ public class ProjectsController {
 	 * @param credits
 	 * @param professorId
 	 */
-	public String addCourse(String name, String desc, String code, int credits, String professorId) {
+	public Response<Void> addCourse(String name, String desc, String code, int credits, String professorId) {
 		Course foundCourse = searchCourse(code);
 
 		if (foundCourse != null) {
-			return "El código " + code + " ya existe.";
+			return Response.failure("El código " + code + " ya existe.");
 		}
 
 		Course course = new Course(name, desc, code, credits);
@@ -92,9 +92,11 @@ public class ProjectsController {
 		if (foundProfessor != null) {
 			foundProfessor.setCourse(course);
 			course.setProfessor(foundProfessor);
-			return "Curso " + name + " creado con éxito y asignado al profesor " + foundProfessor.getName() + ".";
+			return Response
+					.success("Curso " + name + " creado con éxito y asignado al profesor " + foundProfessor.getName() + ".");
 		} else {
-			return "Curso " + name + " creado con éxito pero no se encontró el profesor con ID: " + professorId;
+			return Response.failure(
+					"Curso " + name + " creado con éxito pero no se encontró el profesor con ID: " + professorId);
 		}
 	}
 
@@ -105,18 +107,18 @@ public class ProjectsController {
 	 * @param name
 	 * @param email
 	 */
-	public String addProfessor(int idTypeIndex, String idNumber, String name, String email) {
+	public Response<Void> addProfessor(int idTypeIndex, String idNumber, String name, String email) {
 		Professor foundProfessor = searchProfessor(idNumber);
 
 		if (foundProfessor != null) {
-			return "El ID " + idNumber + " ya existe.";
+			return Response.failure("El profesor con ID " + idNumber + " ya existe.");
 		}
 
 		DocumentType idType = DocumentType.getByIndex(idTypeIndex);
 		Professor professor = new Professor(idNumber, idType, name, email);
 		professors.add(professor);
 
-		return "Profesor " + name + " creado con éxito.";
+		return Response.success("Profesor " + name + " creado con éxito.");
 	}
 
 	/**
@@ -343,4 +345,23 @@ public class ProjectsController {
 		return projectsWithoutResult;
 	}
 
+	public String listProfessors() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Lista de profesores:\n");
+		for (int i = 0; i < professors.size(); i++) {
+			Professor professor = professors.get(i);
+			sb.append(i + 1).append(" ").append(professor.toString()).append("\n");
+		}
+		return sb.toString();
+	}
+
+	public String listCourses() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Lista de cursos:\n");
+		for (int i = 0; i < courses.size(); i++) {
+			Course course = courses.get(i);
+			sb.append(i + 1).append(" ").append(course.toString()).append("\n");
+		}
+		return sb.toString();
+	}
 }
