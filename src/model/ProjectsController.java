@@ -78,14 +78,14 @@ public class ProjectsController {
 	 * @param credits
 	 * @param professorId
 	 */
-	public String addCourse(String name, String desc, String code, String credits, String professorId) {
+	public String addCourse(String name, String desc, String code, int credits, String professorId) {
 		Course foundCourse = searchCourse(code);
 
 		if (foundCourse != null) {
 			return "El código " + code + " ya existe.";
 		}
 
-		Course course = new Course(name, desc, code, Integer.parseInt(credits));
+		Course course = new Course(name, desc, code, credits);
 		courses.add(course);
 
 		Professor foundProfessor = searchProfessor(professorId);
