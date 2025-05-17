@@ -75,7 +75,7 @@ public class Executable {
 			return isInteger && Integer.parseInt(input) > 0 && Integer.parseInt(input) <= 10;
 		}, Integer::parseInt);
 
-		System.out.print("Ingrese el identificador del profesor (Presione enter para no añadir profesor): ");
+		System.out.print("Ingrese el identificador del profesor (Presione enter para omitir): ");
 		String professorId = reader.nextLine();
 
 		Response<Void> response = null;
