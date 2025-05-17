@@ -145,7 +145,6 @@ public class ProjectsController {
 
 	/**
 	 * 
-	 * @param professorId
 	 * @param courseId
 	 * @param name
 	 * @param benefCompany
@@ -153,20 +152,11 @@ public class ProjectsController {
 	 * @param desc
 	 * @param statementURL
 	 */
-	public Response<String> addProject(String professorId, String courseId, String name, String benefCompany,
+	public Response<Void> addProject(String courseId, String name, String benefCompany,
 			ArrayList<String> keyWords, String desc, String statementURL, int projectTypeIndex) {
 		Course course = searchCourse(courseId);
 		if (course == null) {
 			return Response.failure("El curso con código " + courseId + " no existe.");
-		}
-
-		Professor professor = searchProfessor(professorId);
-		if (professor == null) {
-			return Response.failure("El profesor con ID " + professorId + " no existe.");
-		}
-
-		if (professor.getCourses().contains(course)) {
-			return Response.failure("El profesor " + professor.getName() + " no está asignado al curso " + courseId + ".");
 		}
 
 		Project foundProject = searchProjectByName(name);
@@ -186,7 +176,6 @@ public class ProjectsController {
 
 	/**
 	 * 
-	 * @param professorId
 	 * @param courseId
 	 * @param name
 	 * @param benefCompany
@@ -195,20 +184,11 @@ public class ProjectsController {
 	 * @param statementURL
 	 * @param orgProjectId
 	 */
-	public Response<Void> addProject(String professorId, String courseId, String name, String benefCompany,
+	public Response<Void> addProject(String courseId, String name, String benefCompany,
 			ArrayList<String> keyWords, String desc, String statementURL, int projectTypeIndex, String orgProjectId) {
 		Course course = searchCourse(courseId);
 		if (course == null) {
 			return Response.failure("El curso con código " + courseId + " no existe.");
-		}
-
-		Professor professor = searchProfessor(professorId);
-		if (professor == null) {
-			return Response.failure("El profesor con ID " + professorId + " no existe.");
-		}
-
-		if (professor.getCourses().contains(course)) {
-			return Response.failure("El profesor " + professor.getName() + " no está asignado al curso " + courseId + ".");
 		}
 
 		Project foundProject = searchProjectByName(name);
@@ -257,33 +237,15 @@ public class ProjectsController {
 		return foundProject.toString();
 	}
 
-	/**
-	 * 
-	 * @param projectId
-	 * @param name
-	 * @param benefCompany
-	 * @param keyWords
-	 * @param desc
-	 * @param statementURL
-	 */
-	public Response<Void> editProject(String projectId, String name, String benefCompany, ArrayList<String> keyWords,
-			String desc,
-			String statementURL, int projectTypeIndex) {
-		Project foundProject = searchProject(projectId);
-		if (foundProject == null) {
-			return Response.failure("El proyecto con ID " + projectId + " no existe.");
+	public String getProjectDataByKeyword(String keyword) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Proyectos que contienen la palabra clave ").append(keyword).append(":\n");
+		for (Project project : projects) {
+			if (project.getKeyWords().contains(keyword)) {
+				sb.append(project.toString()).append("\n");
+			}
 		}
-
-		ProjectType projectType = ProjectType.getByIndex(projectTypeIndex);
-
-		foundProject.setName(name);
-		foundProject.setBeneficiaryCompany(benefCompany);
-		foundProject.setKeyWords(keyWords);
-		foundProject.setDescription(desc);
-		foundProject.setStatementURL(statementURL);
-		foundProject.setProjectType(projectType);
-
-		return Response.success("Proyecto " + name + " editado con éxito.");
+		return sb.toString();
 	}
 
 	/**
@@ -363,5 +325,71 @@ public class ProjectsController {
 			sb.append(i + 1).append(" ").append(course.toString()).append("\n");
 		}
 		return sb.toString();
+	}
+
+	public String listProjects() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Lista de proyectos:\n");
+		for (int i = 0; i < projects.size(); i++) {
+			Project project = projects.get(i);
+			sb.append(i + 1).append(" ").append(project.toString()).append("\n");
+		}
+		return sb.toString();
+	}
+
+	public Response<Void> setProjectName(String projectId, String name) {
+		Project foundProject = searchProject(projectId);
+
+		if (foundProject == null) {
+			return Response.failure("El proyecto con ID " + projectId + " no existe.");
+		}
+
+		foundProject.setName(name);
+		return Response.success("Nombre del proyecto " + projectId + " cambiado a " + name + ".");
+	}
+
+	public Response<Void> setProjectBeneficiaryCompany(String projectId, String beneficiaryCompany) {
+		Project foundProject = searchProject(projectId);
+
+		if (foundProject == null) {
+			return Response.failure("El proyecto con ID " + projectId + " no existe.");
+		}
+
+		foundProject.setBeneficiaryCompany(beneficiaryCompany);
+		return Response
+				.success("Empresa beneficiaria del proyecto " + projectId + " fue cambiada a " + beneficiaryCompany + ".");
+	}
+
+	public Response<Void> setProjectKeyWords(String projectId, ArrayList<String> keyWords) {
+		Project foundProject = searchProject(projectId);
+
+		if (foundProject == null) {
+			return Response.failure("El proyecto con ID " + projectId + " no existe.");
+		}
+
+		foundProject.setKeyWords(keyWords);
+		return Response.success("Palabras clave del proyecto " + projectId + " cambiadas a " + keyWords.toString() + ".");
+	}
+
+	public Response<Void> setProjectDescription(String projectId, String description) {
+		Project foundProject = searchProject(projectId);
+
+		if (foundProject == null) {
+			return Response.failure("El proyecto con ID " + projectId + " no existe.");
+		}
+
+		foundProject.setDescription(description);
+		return Response.success("Descripción del proyecto " + projectId + " cambiada a " + description + ".");
+	}
+
+	public Response<Void> setProjectStatementURL(String projectId, String statementURL) {
+		Project foundProject = searchProject(projectId);
+
+		if (foundProject == null) {
+			return Response.failure("El proyecto con ID " + projectId + " no existe.");
+		}
+
+		foundProject.setStatementURL(statementURL);
+		return Response.success("URL del enunciado del proyecto " + projectId + " cambiado a " + statementURL + ".");
 	}
 }

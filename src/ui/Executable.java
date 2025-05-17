@@ -1,5 +1,7 @@
 package ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -9,10 +11,20 @@ public class Executable {
 
 	public ProjectsController control;
 	public Scanner reader;
+	private boolean isAdmin;
 
 	public Executable() {
 		control = new ProjectsController();
 		reader = new Scanner(System.in);
+		isAdmin = false;
+	}
+
+	public boolean getAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 	public int showMenu() {
@@ -44,6 +56,12 @@ public class Executable {
 	}
 
 	public void registerCourse() {
+
+		if (!isAdmin) {
+			System.out.println("No tienes permisos para registrar un curso.");
+			return;
+		}
+
 		System.out.print("Ingrese el nombre del curso:");
 		String name = reader.nextLine();
 
@@ -72,6 +90,12 @@ public class Executable {
 	}
 
 	public void registerProfessor() {
+
+		if (!isAdmin) {
+			System.out.println("No tienes permisos para registrar un profesor.");
+			return;
+		}
+
 		boolean run = true;
 
 		do {
@@ -99,10 +123,15 @@ public class Executable {
 			System.out.println("\n" + res.getMessage());
 			run = !res.getSuccess();
 		} while (run);
-
 	}
 
 	public void assignProfessorToCourse() {
+
+		if (!isAdmin) {
+			System.out.println("No tienes permisos para asignar un profesor a un curso.");
+			return;
+		}
+
 		boolean run = true;
 
 		do {
@@ -122,22 +151,161 @@ public class Executable {
 	}
 
 	public void registerProject() {
+		boolean run = true;
+		do {
+			System.out.println(control.listCourses());
+			System.out.print("Ingrese el código del curso:");
+			String courseCode = reader.nextLine();
 
+			System.out.print("Ingrese el nombre del proyecto:");
+			String name = reader.nextLine();
+
+			System.out.print("Ingrese la empresa beneficiaria:");
+			String beneficiaryCompany = reader.nextLine();
+
+			ArrayList<String> keyWords = Validator.cleanInput("Ingrese las palabras clave (separadas por comas)",
+					"Palabras clave inválidas",
+					(t) -> !t.isEmpty(), (t) -> new ArrayList<>(List.of(t.split(","))));
+
+			System.out.print("Ingrese la descripción del proyecto:");
+			String description = reader.nextLine();
+
+			System.out.print("Ingrese la URL del enunciado:");
+			String statementURL = reader.nextLine();
+
+			System.out.println("Tipo de proyecto: ");
+			System.out.println("1. Integrador");
+			System.out.println("2. De curso");
+			System.out.println("3. Final");
+			int type = Validator.cleanInput(
+					"Ingresa el tipo de proyecto",
+					"Opción inválida",
+					(t) -> {
+						if (!Validator.isIntegerParsable(t)) {
+							return false;
+						}
+
+						int index = Integer.parseInt(t) - 1;
+
+						return index >= 0 && index < 3;
+					}, Integer::parseInt);
+
+			System.out.println("Ingrese el id del projecto base (Presione enter para saltar):");
+			String baseProjectId = reader.nextLine();
+
+			Response<Void> res;
+
+			if (baseProjectId.isEmpty()) {
+				res = control.addProject(courseCode, name, beneficiaryCompany, keyWords, description, statementURL,
+						type);
+			} else {
+				res = control.addProject(courseCode, name, beneficiaryCompany, keyWords, description, statementURL,
+						type, baseProjectId);
+			}
+
+			System.out.println("\n" + res.getMessage());
+			run = !res.getSuccess();
+		} while (run);
 	}
 
 	public void findProject() {
-		// TODO - implement Executable.findProject
-		throw new UnsupportedOperationException();
+		System.out.println("Encuentra un proyecto por: ");
+		System.out.println("1. ID");
+		System.out.println("2. Nombre");
+		System.out.println("3. Palabra clave");
+
+		String data = switch (Validator.cleanInput(
+				"Seleccione una opción",
+				"Opción inválida",
+				(input) -> {
+					boolean isInteger = Validator.isIntegerParsable(input);
+					return isInteger && Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 3;
+				},
+				Integer::parseInt)) {
+			case 1 -> {
+				System.out.print("Ingrese el ID del proyecto:");
+				yield control.getProjectDataById(reader.nextLine());
+			}
+			case 2 -> {
+				System.out.print("Ingrese el nombre del proyecto:");
+				yield control.getProjectDataByName(reader.nextLine());
+			}
+			case 3 -> {
+				System.out.print("Ingrese la palabra clave:");
+				yield control.getProjectDataByKeyword(reader.nextLine());
+			}
+			default -> null;
+		};
+
+		System.out.println("\n" + data);
 	}
 
 	public void modifyProjectData() {
-		// TODO - implement Executable.modifyProjectData
-		throw new UnsupportedOperationException();
+		System.out.println(control.listProjects());
+		System.out.println("Ingresa el id del proyecto a modificar:");
+		String projectId = reader.nextLine();
+
+		boolean run = true;
+
+		do {
+			System.out.println("¿Que deseas modificar?");
+			System.out.println("1. Nombre");
+			System.out.println("2. Empresa beneficiaria");
+			System.out.println("3. Palabras clave");
+			System.out.println("4. Descripción");
+			System.out.println("5. URL del enunciado");
+
+			int option = Validator.cleanInput(
+					"Seleccione una opción",
+					"Opción inválida",
+					(input) -> {
+						boolean isInteger = Validator.isIntegerParsable(input);
+						return isInteger && Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 5;
+					},
+					Integer::parseInt);
+
+			String info = switch (option) {
+				case 1 -> {
+					System.out.print("Ingrese el nuevo nombre:");
+					String newName = reader.nextLine();
+					yield control.setProjectName(projectId, newName).getMessage();
+				}
+				case 2 -> {
+					System.out.print("Ingrese la nueva empresa beneficiaria:");
+					String newBeneficiaryCompany = reader.nextLine();
+					yield control.setProjectBeneficiaryCompany(projectId, newBeneficiaryCompany).getMessage();
+				}
+				case 3 -> {
+					System.out.print("Ingrese las nuevas palabras clave (separadas por comas):");
+					String newKeyWords = reader.nextLine();
+					yield control.setProjectKeyWords(projectId, new ArrayList<>(List.of(newKeyWords.split(",")))).getMessage();
+				}
+				case 4 -> {
+					System.out.print("Ingrese la nueva descripción:");
+					String newDescription = reader.nextLine();
+					yield control.setProjectDescription(projectId, newDescription).getMessage();
+				}
+				case 5 -> {
+					System.out.print("Ingrese la nueva URL del enunciado:");
+					String newStatementURL = reader.nextLine();
+					yield control.setProjectStatementURL(projectId, newStatementURL).getMessage();
+				}
+				default -> null;
+			};
+
+			System.out.println("\n" + info);
+
+			run = Validator.askYesNo("¿Desea modificar otro dato? (si/no)");
+		} while (run);
+
 	}
 
 	public void deleteProject() {
-		// TODO - implement Executable.deleteProject
-		throw new UnsupportedOperationException();
+		System.out.println("Ingrese el id del proyecto a eliminar:");
+		String projectId = reader.nextLine();
+
+		String info = control.deleteProject(projectId);
+		System.out.println("\n" + info);
 	}
 
 	public void loadTestData() {
@@ -146,13 +314,17 @@ public class Executable {
 	}
 
 	public void findProjectsWithoutResult() {
-		// TODO - implement Executable.findProjectsWithoutResult
-		throw new UnsupportedOperationException();
+		System.out.println("Projectos sin resultado:");
+		System.out.println(control.getProjectsWithoutResult());
 	}
 
 	public static void main(String[] args) {
 		Executable executable = new Executable();
 		int option = 0;
+
+		boolean admin = Validator.askYesNo("¿Es administrador? (si/no)");
+		executable.setAdmin(admin);
+
 		while (option != 10) {
 			option = executable.showMenu();
 
@@ -173,5 +345,4 @@ public class Executable {
 
 		executable.reader.close();
 	}
-
 }

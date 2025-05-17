@@ -153,15 +153,15 @@ public class Project {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Id del proyecto: ").append(this.id).append("\n");
-		sb.append("Nombre: ").append(this.name).append("\n");
-		sb.append("Empresa beneficiaria: ").append(this.beneficiaryCompany).append("\n");
-		sb.append("Palabras clave: ").append(this.keyWords).append("\n");
-		sb.append("Descripción: ").append(this.description).append("\n");
-		sb.append("URL del enunciado: ").append(this.statementURL).append("\n");
-		sb.append("Tipo de projecto: ").append(this.projectType).append("\n");
-		if (this.orgProject != null) {
-			sb.append("Proyecto original: ").append(this.orgProject.getId()).append("\n");
+		sb.append("Id del proyecto: ").append(id).append("\n");
+		sb.append("Nombre: ").append(name).append("\n");
+		sb.append("Empresa beneficiaria: ").append(beneficiaryCompany).append("\n");
+		sb.append("Palabras clave: ").append(keyWords).append("\n");
+		sb.append("Descripción: ").append(description).append("\n");
+		sb.append("URL del enunciado: ").append(statementURL).append("\n");
+		sb.append("Tipo de projecto: ").append(projectType).append("\n");
+		if (orgProject != null) {
+			sb.append("Proyecto original: ").append(orgProject.getId()).append("\n");
 		}
 		return sb.toString();
 	}
