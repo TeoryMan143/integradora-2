@@ -1,5 +1,6 @@
 package ui;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -298,6 +299,47 @@ public class Executable {
 			run = Validator.askYesNo("¿Desea modificar otro dato? (si/no)");
 		} while (run);
 
+	}
+
+	public void addResult() {
+		System.out.println("Ingrese el id del proyecto:");
+		String projectId = reader.nextLine();
+
+		LocalDate date = Validator.cleanInput("Ingrese la fecha del resultado (YYYY-MM-DD)", "Fecha inválida",
+				Validator::isLocalDateParsable, LocalDate::parse);
+
+		int group = Validator.cleanInput("Ingrese el grupo", "Grupo inválido",
+				(input) -> Validator.isIntegerParsable(input) && Integer.parseInt(input) > 0, Integer::parseInt);
+
+		String url = Validator.cleanInput("Ingrese la URL del resultado", "URL inválida",
+				(input) -> !input.isEmpty());
+
+		System.out.println("1. Diagrama de clases");
+		System.out.println("2. Infografía");
+		System.out.println("3. Modelo de datos");
+		System.out.println("4. Plan de pruebas");
+		System.out.println("5. Diagrama de despliegue");
+		int typeIndex = Validator.cleanInput("Seleccione el tipo de resultado", "Opción inválida",
+				(input) -> {
+					boolean isInteger = Validator.isIntegerParsable(input);
+					return isInteger && Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 5;
+				},
+				Integer::parseInt) - 1;
+
+		System.out.println("1. Análisis de requerimientos");
+		System.out.println("2. Diseño");
+		System.out.println("3. Construcción");
+		System.out.println("4. Pruebas");
+		System.out.println("5. Despliegue");
+		int phaseIndex = Validator.cleanInput("Seleccione la fase del ciclo de vida", "Opción inválida",
+				(input) -> {
+					boolean isInteger = Validator.isIntegerParsable(input);
+					return isInteger && Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 5;
+				},
+				Integer::parseInt) - 1;
+
+		Response<Void> res = control.addProjectResult(projectId, date, group, url, phaseIndex, typeIndex);
+		System.out.println("\n" + res.getMessage());
 	}
 
 	public void deleteProject() {
