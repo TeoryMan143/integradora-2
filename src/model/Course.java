@@ -17,6 +17,7 @@ public class Course {
 		this.code = code;
 		this.credits = credits;
 		this.professors = new ArrayList<Professor>();
+		this.projects = new ArrayList<Project>();
 	}
 
 	/**
