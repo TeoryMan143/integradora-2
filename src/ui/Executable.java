@@ -3,7 +3,6 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 import model.ProjectsController;
 
@@ -35,10 +34,11 @@ public class Executable {
 		System.out.println("4. Registar proyecto");
 		System.out.println("5. Encontrar proyecto");
 		System.out.println("6. Modificar datos del proyecto");
-		System.out.println("7. Eliminar proyecto");
-		System.out.println("8. Cargar datos de prueba");
-		System.out.println("9. Encontrar proyectos sin resultado");
-		System.out.println("10. Salir");
+		System.out.println("7. Añadir resultado");
+		System.out.println("8. Eliminar proyecto");
+		System.out.println("9. Cargar datos de prueba");
+		System.out.println("10. Encontrar proyectos sin resultado");
+		System.out.println("11. Salir");
 
 		option = Validator.cleanInput(
 				"Selecione una opción",
@@ -46,9 +46,9 @@ public class Executable {
 				(input) -> {
 					boolean isInteger = Validator.isIntegerParsable(input);
 
-					Set<Integer> validOptions = Set.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+					int sOption = Integer.parseInt(input);
 
-					return isInteger && validOptions.contains(Integer.parseInt(input));
+					return isInteger && sOption >= 1 && sOption <= 11;
 				},
 				Integer::parseInt);
 
@@ -325,7 +325,7 @@ public class Executable {
 		boolean admin = Validator.askYesNo("¿Es administrador? (si/no)");
 		executable.setAdmin(admin);
 
-		while (option != 10) {
+		while (option != 11) {
 			option = executable.showMenu();
 
 			switch (option) {
@@ -335,10 +335,11 @@ public class Executable {
 				case 4 -> executable.registerProject();
 				case 5 -> executable.findProject();
 				case 6 -> executable.modifyProjectData();
-				case 7 -> executable.deleteProject();
-				case 8 -> executable.loadTestData();
-				case 9 -> executable.findProjectsWithoutResult();
-				case 10 -> System.out.println("Saliendo...");
+				case 7 -> System.out.println("Add result");
+				case 8 -> executable.deleteProject();
+				case 9 -> executable.loadTestData();
+				case 10 -> executable.findProjectsWithoutResult();
+				case 11 -> System.out.println("Saliendo...");
 				default -> System.out.println("Opción inválida, por favor intente de nuevo.");
 			}
 		}
