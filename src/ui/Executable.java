@@ -133,6 +133,16 @@ public class Executable {
 			return;
 		}
 
+		if (control.getCoursesSize() == 0) {
+			System.out.println("No hay cursos registrados.");
+			return;
+		}
+
+		if (control.getProfessorsSize() == 0) {
+			System.out.println("No hay profesores registrados.");
+			return;
+		}
+
 		boolean run = true;
 
 		do {
@@ -152,6 +162,12 @@ public class Executable {
 	}
 
 	public void registerProject() {
+
+		if (control.getCoursesSize() == 0) {
+			System.out.println("No hay cursos registrados.");
+			return;
+		}
+
 		boolean run = true;
 		do {
 			System.out.println(control.listCourses());
@@ -302,6 +318,12 @@ public class Executable {
 	}
 
 	public void addResult() {
+
+		if (control.getProjectsSize() == 0) {
+			System.out.println("No hay proyectos registrados.");
+			return;
+		}
+
 		System.out.println("Ingrese el id del proyecto:");
 		String projectId = reader.nextLine();
 

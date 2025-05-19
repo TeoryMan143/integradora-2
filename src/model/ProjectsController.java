@@ -392,4 +392,16 @@ public class ProjectsController {
 		foundProject.setStatementURL(statementURL);
 		return Response.success("URL del enunciado del proyecto " + projectId + " cambiado a " + statementURL + ".");
 	}
+
+	public int getCoursesSize() {
+		return courses.size();
+	}
+
+	public int getProfessorsSize() {
+		return professors.size();
+	}
+
+	public int getProjectsSize() {
+		return projects.size();
+	}
 }
