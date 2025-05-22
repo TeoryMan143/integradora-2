@@ -8,7 +8,6 @@ public class Course {
 	private String description;
 	private String code;
 	private int credits;
-	private ArrayList<Professor> professors;
 	private ArrayList<Project> projects;
 
 	public Course(String name, String description, String code, int credits) {
@@ -16,16 +15,7 @@ public class Course {
 		this.description = description;
 		this.code = code;
 		this.credits = credits;
-		this.professors = new ArrayList<Professor>();
 		this.projects = new ArrayList<Project>();
-	}
-
-	/**
-	 * 
-	 * @param professor
-	 */
-	public void setProfessor(Professor professor) {
-		this.professors.add(professor);
 	}
 
 	/**

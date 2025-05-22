@@ -399,7 +399,7 @@ public class Executable {
 				case 4 -> executable.registerProject();
 				case 5 -> executable.findProject();
 				case 6 -> executable.modifyProjectData();
-				case 7 -> System.out.println("Add result");
+				case 7 -> executable.addResult();
 				case 8 -> executable.deleteProject();
 				case 9 -> executable.loadTestData();
 				case 10 -> executable.findProjectsWithoutResult();

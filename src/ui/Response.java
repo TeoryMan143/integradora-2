@@ -114,7 +114,7 @@ public class Response<T> {
    * @return A new successful Response with a message and no result.
    */
   public static <T> Response<T> success(String message) {
-    return new Response<>(true, "Success", null);
+    return new Response<>(true, message, null);
   }
 
   /**

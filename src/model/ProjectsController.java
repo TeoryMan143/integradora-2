@@ -91,7 +91,6 @@ public class ProjectsController {
 		Professor foundProfessor = searchProfessor(professorId);
 		if (foundProfessor != null) {
 			foundProfessor.setCourse(course);
-			course.setProfessor(foundProfessor);
 			return Response
 					.success("Curso " + name + " creado con éxito y asignado al profesor " + foundProfessor.getName() + ".");
 		} else {
@@ -137,7 +136,6 @@ public class ProjectsController {
 			return Response.failure("El profesor con ID " + professorId + " no existe.");
 		}
 
-		course.setProfessor(professor);
 		professor.setCourse(course);
 
 		return Response.success("Profesor " + professor.getName() + " asignado al curso " + course.getName() + ".");
