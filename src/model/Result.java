@@ -29,6 +29,15 @@ public class Result {
 		this.type = type;
 	}
 
+	public Result(String id, LocalDate date, int group, String url, CyclePhase phase, ResultType type) {
+		this.id = id;
+		this.date = date;
+		this.group = group;
+		this.url = url;
+		this.phase = phase;
+		this.type = type;
+	}
+
 	public String getId() {
 		return this.id;
 	}
