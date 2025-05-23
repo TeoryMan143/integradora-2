@@ -1,0 +1,18 @@
+code,name,description,credits,projects
+CIS101,Programación I,Fundamentos de programación en Java,4,PRJ001|PRJ002|PRJ010
+MAT202,Álgebra Lineal,Espacios vectoriales y transformaciones lineales,3,PRJ003|PRJ011
+ENG305,Inglés Técnico,Desarrollo de habilidades comunicativas en inglés académico,2,PRJ012
+PHY110,Física I,Mecánica clásica y termodinámica,4,PRJ004|PRJ013
+CHEM201,Química Orgánica,Estudio de compuestos de carbono,3,PRJ014
+INF201,Estructuras de Datos,Algoritmos y complejidad computacional,4,PRJ005|PRJ015
+MAT303,Cálculo Vectorial,Cálculo multivariable y campos vectoriales,3,PRJ016
+EST205,Estadística Inferencial,Métodos de estimación y prueba de hipótesis,3,PRJ006|PRJ017
+BIO101,Biología Celular,Organización y función de las células,4,PRJ018
+QUI202,Química Inorgánica,Compuestos y reacciones inorgánicas,3,PRJ007|PRJ019
+FIS301,Electromagnetismo,Campos eléctricos y magnéticos,4,PRJ020
+ECO101,Microeconomía,Teoría del consumidor y productor,3,PRJ008|PRJ021
+DER202,Derecho Civil,Contratos y obligaciones,3,PRJ022
+PSI305,Psicología Cognitiva,Procesos mentales superiores,3,PRJ009|PRJ023
+ART105,Historia del Arte,Desarrollo del arte occidental,2,PRJ024
+HIS201,Historia Contemporánea,Siglos XIX y XX,3,PRJ025
+FIL303,Filosofía de la Ciencia,Epistemología y metodología científica,3,PRJ026

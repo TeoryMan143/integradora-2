@@ -1,0 +1,7 @@
+idNumber,name,email,type,courses
+1002345678,Juan Pérez López,juan.perez@universidad.edu,0,CIS101|MAT202|ENG305
+2003456789,María Gómez Rodríguez,maria.gomez@universidad.edu,1,PHY110|CHEM201|ADM105
+3004567890,Carlos Ruiz Hernández,carlos.ruiz@universidad.edu,0,INF201|MAT303|EST205
+4005678901,Ana Martínez Sánchez,ana.martinez@universidad.edu,2,BIO101|QUI202|FIS301
+5006789012,Luis Fernández Díaz,luis.fernandez@universidad.edu,0,ECO101|DER202|PSI305
+6007890123,Sofía Castro Jiménez,sofia.castro@universidad.edu,1,ART105|HIS201|FIL303

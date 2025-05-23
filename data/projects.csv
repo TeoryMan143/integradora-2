@@ -1,0 +1,11 @@
+id,name,beneficiaryCompany,keywords,description,statementURL,active,projectType,results,orgProject
+PRJ001,Sistema de Biblioteca,Ministerio de Cultura,libros|gestión|software,Sistema integrado para gestión bibliotecaria,https://university.edu/projects/prj001.pdf,1,0,RES001|RES002|RES010,
+PRJ002,App Móvil Educativa,Grupo Santillana,educación|mobile|android,Aplicación para aprendizaje de matemáticas básicas,https://university.edu/projects/prj002.pdf,1,1,RES003|RES011,PRJ001
+PRJ003,Modelo Predictivo,Banco Nacional,finanzas|machine learning|python,Modelo para predecir riesgo crediticio,https://university.edu/projects/prj003.pdf,0,2,RES004|RES012,
+PRJ004,Simulador Físico,Laboratorios Científicos SA,física|simulación|java,Simulador de movimientos parabólicos,https://university.edu/projects/prj004.pdf,1,0,RES005|RES013,
+PRJ005,Algoritmo de Compresión,TechSolutions,compresión|algoritmos|C++,Implementación del algoritmo LZW,https://university.edu/projects/prj005.pdf,1,1,RES006|RES014,PRJ003
+PRJ006,Estudio Demográfico,DANE,estadística|población|R,Análisis de tendencias demográficas 2000-2020,https://university.edu/projects/prj006.pdf,1,2,RES007|RES015,
+PRJ007,Catalizadores Industriales,Química Andina,química|catálisis|nanomateriales,Síntesis de catalizadores para procesos industriales,https://university.edu/projects/prj007.pdf,0,0,RES008|RES016,
+PRJ008,Modelo Económico,Banco Central,economía|modelos|python,Modelo macroeconómico para políticas fiscales,https://university.edu/projects/prj008.pdf,1,1,RES009|RES017,PRJ006
+PRJ009,Estudio Cognitivo,Hospital Psiquiátrico,psicología|memoria|neurociencia,Efectos del sueño en la memoria a largo plazo,https://university.edu/projects/prj009.pdf,1,2,RES018|RES019,
+PRJ010,Plataforma E-learning,Universidad Icesi,educación|web|php,Sistema de gestión de cursos en línea,https://university.edu/projects/prj010.pdf,1,0,RES020|RES021,PRJ002
