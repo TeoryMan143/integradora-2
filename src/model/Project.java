@@ -44,28 +44,6 @@ public class Project {
 	 * @param keyWords
 	 * @param desc
 	 * @param statementURL
-	 */
-	public Project(String id, String name, String benefCompany, ArrayList<String> keyWords, String desc,
-			String statementURL,
-			ProjectType projectType) {
-		this.name = name;
-		this.beneficiaryCompany = benefCompany;
-		this.keyWords = keyWords;
-		this.description = desc;
-		this.statementURL = statementURL;
-		this.active = true;
-		this.projectType = projectType;
-		this.results = new ArrayList<Result>();
-		this.id = id;
-	}
-
-	/**
-	 * 
-	 * @param name
-	 * @param benefCompany
-	 * @param keyWords
-	 * @param desc
-	 * @param statementURL
 	 * @param orgProject
 	 */
 	public Project(
@@ -87,6 +65,33 @@ public class Project {
 		this.results = new ArrayList<Result>();
 		this.id = UUID.randomUUID().toString();
 		this.orgProject = orgProject;
+	}
+
+	public Project(String id, String name, String benefCompany, ArrayList<String> keyWords, String desc,
+			String statementURL,
+			boolean active, ProjectType projectType, Project orgProject) {
+		this.id = id;
+		this.name = name;
+		this.beneficiaryCompany = benefCompany;
+		this.keyWords = keyWords;
+		this.description = desc;
+		this.statementURL = statementURL;
+		this.active = active;
+		this.projectType = projectType;
+		this.orgProject = orgProject;
+	}
+
+	public Project(String id, String name, String benefCompany, ArrayList<String> keyWords, String desc,
+			String statementURL,
+			boolean active, ProjectType projectType) {
+		this.id = id;
+		this.name = name;
+		this.beneficiaryCompany = benefCompany;
+		this.keyWords = keyWords;
+		this.description = desc;
+		this.statementURL = statementURL;
+		this.active = active;
+		this.projectType = projectType;
 	}
 
 	/**
