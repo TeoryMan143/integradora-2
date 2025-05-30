@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import ui.Validator;
+import model.Course;
 import model.CyclePhase;
 import model.Project;
 import model.ProjectType;
@@ -120,15 +121,8 @@ public class FileParser {
 
       String desc = parts[4];
       String statementURL = parts[5];
-      String activeText = parts[6];
 
-      if (!activeText.equals("1") && !activeText.equals("0")) {
-        throw new IOException("El formato de la fase es incorrecto, debe ser un booleano (1 o 0)");
-      }
-
-      boolean active = activeText.equals("1");
-
-      String projectTypeText = parts[7];
+      String projectTypeText = parts[6];
 
       if (!Validator.isIntegerParsable(projectTypeText)) {
         throw new IOException("El formato del tipo es incorrecto, debe ser un número entero");
@@ -137,19 +131,19 @@ public class FileParser {
       ProjectType projectType = ProjectType.getByIndex(Integer.parseInt(projectTypeText));
 
       Optional<Project> orgProject = projects.stream()
-          .filter(p -> p.getId().equals(parts[9]))
+          .filter(p -> p.getId().equals(parts[8]))
           .findFirst();
 
       Project project = null;
 
       if (orgProject.isPresent()) {
-        project = new Project(id, name, benefCompany, keyWords, desc, statementURL, active, projectType,
+        project = new Project(id, name, benefCompany, keyWords, desc, statementURL, projectType,
             orgProject.get());
       } else {
-        project = new Project(id, name, benefCompany, keyWords, desc, statementURL, active, projectType);
+        project = new Project(id, name, benefCompany, keyWords, desc, statementURL, projectType);
       }
 
-      String resultsText = parts[8];
+      String resultsText = parts[7];
 
       if (!resultsText.equals("")) {
         for (String resultId : resultsText.split("|")) {

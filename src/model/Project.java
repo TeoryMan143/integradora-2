@@ -11,7 +11,6 @@ public class Project {
 	private ArrayList<String> keyWords;
 	private String description;
 	private String statementURL;
-	private boolean active;
 	private ProjectType projectType;
 	private ArrayList<Result> results;
 	private Project orgProject;
@@ -31,7 +30,6 @@ public class Project {
 		this.keyWords = keyWords;
 		this.description = desc;
 		this.statementURL = statementURL;
-		this.active = true;
 		this.projectType = projectType;
 		this.results = new ArrayList<Result>();
 		this.id = UUID.randomUUID().toString();
@@ -60,7 +58,6 @@ public class Project {
 		this.keyWords = keyWords;
 		this.description = desc;
 		this.statementURL = statementURL;
-		this.active = true;
 		this.projectType = projectType;
 		this.results = new ArrayList<Result>();
 		this.id = UUID.randomUUID().toString();
@@ -68,29 +65,25 @@ public class Project {
 	}
 
 	public Project(String id, String name, String benefCompany, ArrayList<String> keyWords, String desc,
-			String statementURL,
-			boolean active, ProjectType projectType, Project orgProject) {
+			String statementURL, ProjectType projectType, Project orgProject) {
 		this.id = id;
 		this.name = name;
 		this.beneficiaryCompany = benefCompany;
 		this.keyWords = keyWords;
 		this.description = desc;
 		this.statementURL = statementURL;
-		this.active = active;
 		this.projectType = projectType;
 		this.orgProject = orgProject;
 	}
 
 	public Project(String id, String name, String benefCompany, ArrayList<String> keyWords, String desc,
-			String statementURL,
-			boolean active, ProjectType projectType) {
+			String statementURL, ProjectType projectType) {
 		this.id = id;
 		this.name = name;
 		this.beneficiaryCompany = benefCompany;
 		this.keyWords = keyWords;
 		this.description = desc;
 		this.statementURL = statementURL;
-		this.active = active;
 		this.projectType = projectType;
 	}
 
@@ -164,18 +157,6 @@ public class Project {
 	 */
 	public void setStatementURL(String statementURL) {
 		this.statementURL = statementURL;
-	}
-
-	public boolean getActive() {
-		return this.active;
-	}
-
-	/**
-	 * 
-	 * @param active
-	 */
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 	public String toString() {

@@ -280,7 +280,6 @@ public class ProjectsController {
 			return "El proyecto con ID " + projectId + " no existe.";
 		}
 
-		foundProject.setActive(false);
 		return "Proyecto " + foundProject.getName() + " eliminado con éxito.";
 	}
 

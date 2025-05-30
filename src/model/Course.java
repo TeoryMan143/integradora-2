@@ -20,6 +20,22 @@ public class Course {
 
 	/**
 	 * 
+	 * @param name
+	 * @param description
+	 * @param code
+	 * @param credits
+	 * @param projects
+	 */
+	public Course(String name, String description, String code, int credits, ArrayList<Project> projects) {
+		this.name = name;
+		this.description = description;
+		this.code = code;
+		this.credits = credits;
+		this.projects = projects != null ? projects : new ArrayList<Project>();
+	}
+
+	/**
+	 * 
 	 * @param project
 	 */
 	public void addProject(Project project) {
