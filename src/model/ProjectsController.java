@@ -1,9 +1,11 @@
 package model;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.InvalidPathException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import utils.FileParser;
 import utils.Response;
 
 public class ProjectsController {
@@ -270,11 +272,21 @@ public class ProjectsController {
 		return Response.success("Resultado del proyecto " + foundProject.getName() + " agregado con éxito.");
 	}
 
+	public String getProjectResult(String projectId, String resultId) {
+		Project foundProject = searchProject(projectId);
+
+		if (foundProject == null) {
+			return "El proyecto con ID " + projectId + " no existe.";
+		}
+
+		return foundProject.getResultData(resultId);
+	}
+
 	/**
 	 * 
 	 * @param projectId
 	 */
-	public String deleteProject(String projectId) {
+	public String deleteResult(String projectId, String resultId) {
 		Project foundProject = searchProject(projectId);
 		if (foundProject == null) {
 			return "El proyecto con ID " + projectId + " no existe.";
@@ -287,21 +299,45 @@ public class ProjectsController {
 	 * 
 	 * @param file
 	 */
-	public String loadTestData(File file) {
-		// TODO - implement ProjectsController.loadTestData
-		throw new UnsupportedOperationException();
+	public Response<Void> loadTestData() {
+		try {
+			FileParser parser = new FileParser();
+
+			projects = parser.loadProjects();
+			courses = parser.loadCourses(projects);
+			professors = parser.loadProfessors(courses);
+
+			return Response.success("Datos de prueba cargados con éxito.");
+		} catch (IOException e) {
+			return Response.failure("Error al cargar los datos de prueba: " + e.getMessage());
+		}
 	}
 
-	public ArrayList<String> getProjectsWithoutResult() {
-		ArrayList<String> projectsWithoutResult = new ArrayList<>();
+	public Response<Void> loadTestData(String route) {
+		try {
+			FileParser parser = new FileParser(route);
+
+			projects = parser.loadProjects();
+			courses = parser.loadCourses(projects);
+			professors = parser.loadProfessors(courses);
+
+			return Response.success("Datos de prueba cargados con éxito desde " + route + ".");
+		} catch (IOException | InvalidPathException e) {
+			return Response.failure("Error al cargar los datos de prueba desde " + route + ": " + e.getMessage());
+		}
+	}
+
+	public String getProjectsWithoutResult() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Proyectos sin resultados:\n");
 
 		for (Project project : projects) {
 			if (project.getResults().isEmpty()) {
-				projectsWithoutResult.add(project.toString());
+				sb.append(project.toString()).append("\n");
 			}
 		}
 
-		return projectsWithoutResult;
+		return sb.toString();
 	}
 
 	public String listProfessors() {

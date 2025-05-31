@@ -13,7 +13,8 @@ public enum CyclePhase {
 		this.text = text;
 	}
 
-	public String getText() {
+	@Override
+	public String toString() {
 		return text;
 	}
 

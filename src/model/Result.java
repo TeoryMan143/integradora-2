@@ -11,6 +11,7 @@ public class Result {
 	private String url;
 	private CyclePhase phase;
 	private ResultType type;
+	private boolean active;
 
 	/**
 	 * 
@@ -27,6 +28,7 @@ public class Result {
 		this.url = url;
 		this.phase = phace;
 		this.type = type;
+		this.active = true;
 	}
 
 	public Result(String id, LocalDate date, int group, String url, CyclePhase phase, ResultType type) {
@@ -36,6 +38,17 @@ public class Result {
 		this.url = url;
 		this.phase = phase;
 		this.type = type;
+		this.active = true;
+	}
+
+	public Result(String id, LocalDate date, int group, String url, CyclePhase phase, ResultType type, boolean active) {
+		this.id = id;
+		this.date = date;
+		this.group = group;
+		this.url = url;
+		this.phase = phase;
+		this.type = type;
+		this.active = active;
 	}
 
 	public String getId() {
@@ -52,6 +65,14 @@ public class Result {
 
 	public String getUrl() {
 		return this.url;
+	}
+
+	public boolean isActive() {
+		return this.active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public String toString() {

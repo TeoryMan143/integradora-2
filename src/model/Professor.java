@@ -18,6 +18,14 @@ public class Professor {
 		this.courses = new ArrayList<Course>();
 	}
 
+	public Professor(String idNumber, DocumentType type, String name, String email, ArrayList<Course> courses) {
+		this.idNumber = idNumber;
+		this.type = type;
+		this.name = name;
+		this.email = email;
+		this.courses = courses;
+	}
+
 	/**
 	 * 
 	 * @param course

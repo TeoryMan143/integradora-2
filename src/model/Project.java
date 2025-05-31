@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Project {
 
@@ -74,6 +75,7 @@ public class Project {
 		this.statementURL = statementURL;
 		this.projectType = projectType;
 		this.orgProject = orgProject;
+		this.results = new ArrayList<Result>();
 	}
 
 	public Project(String id, String name, String benefCompany, ArrayList<String> keyWords, String desc,
@@ -85,6 +87,24 @@ public class Project {
 		this.description = desc;
 		this.statementURL = statementURL;
 		this.projectType = projectType;
+		this.results = new ArrayList<Result>();
+	}
+
+	private Result getResultById(String id) {
+		return results.stream()
+				.filter(Result::isActive)
+				.filter(result -> result.getId().equals(id))
+				.findFirst()
+				.orElse(null);
+	}
+
+	public String getResultData(String resId) {
+		Result result = getResultById(resId);
+		if (result != null) {
+			return result.toString();
+		} else {
+			return "Resultado no encontrado.";
+		}
 	}
 
 	/**
@@ -93,6 +113,13 @@ public class Project {
 	 */
 	public void addResult(Result res) {
 		this.results.add(res);
+	}
+
+	public void removeResult(String id) {
+		Result result = getResultById(id);
+		if (result != null) {
+			result.setActive(false);
+		}
 	}
 
 	public String getId() {
@@ -168,6 +195,17 @@ public class Project {
 		sb.append("Descripción: ").append(description).append("\n");
 		sb.append("URL del enunciado: ").append(statementURL).append("\n");
 		sb.append("Tipo de projecto: ").append(projectType).append("\n");
+		sb.append("Resultados:\n");
+		if (getResults().isEmpty()) {
+			sb.append("No hay resultados asociados al proyecto.\n");
+		} else {
+			for (Result result : results) {
+				if (result.isActive()) {
+					sb.append(result.getId()).append("\n");
+				}
+			}
+		}
+
 		if (orgProject != null) {
 			sb.append("Proyecto original: ").append(orgProject.getId()).append("\n");
 		}
@@ -175,7 +213,9 @@ public class Project {
 	}
 
 	public ArrayList<Result> getResults() {
-		return this.results;
+		return this.results.stream()
+				.filter(Result::isActive)
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	public void setProjectType(ProjectType projectType) {

@@ -37,10 +37,11 @@ public class Executable {
 		System.out.println("5. Encontrar proyecto");
 		System.out.println("6. Modificar datos del proyecto");
 		System.out.println("7. Añadir resultado");
-		System.out.println("8. Eliminar proyecto");
+		System.out.println("8. Eliminar resultado");
 		System.out.println("9. Cargar datos de prueba");
 		System.out.println("10. Encontrar proyectos sin resultado");
-		System.out.println("11. Salir");
+		System.out.println("11. Consultar resultado");
+		System.out.println("12. Salir");
 
 		option = Validator.cleanInput(
 				"Selecione una opción",
@@ -50,7 +51,7 @@ public class Executable {
 
 					int sOption = Integer.parseInt(input);
 
-					return isInteger && sOption >= 1 && sOption <= 11;
+					return isInteger && sOption >= 1 && sOption <= 12;
 				},
 				Integer::parseInt);
 
@@ -208,6 +209,7 @@ public class Executable {
 						return index >= 0 && index < 3;
 					}, Integer::parseInt);
 
+			System.out.println(control.listProjects());
 			System.out.println("Ingrese el id del projecto base (Presione enter para saltar):");
 			String baseProjectId = reader.nextLine();
 
@@ -365,22 +367,53 @@ public class Executable {
 		System.out.println("\n" + res.getMessage());
 	}
 
-	public void deleteProject() {
-		System.out.println("Ingrese el id del proyecto a eliminar:");
+	public void deleteResult() {
+		System.out.println(control.listProjects());
+		System.out.println("Ingrese el id del proyecto:");
 		String projectId = reader.nextLine();
 
-		String info = control.deleteProject(projectId);
+		System.out.println("Ingrese el id del resultado a eliminar:");
+		String resultId = reader.nextLine();
+
+		String info = control.deleteResult(projectId, resultId);
 		System.out.println("\n" + info);
 	}
 
 	public void loadTestData() {
-		// TODO - implement Executable.loadTestData
-		throw new UnsupportedOperationException();
+		System.out.println("La ruta debe ser la carpeta que contenga los archivos:");
+		System.out.println(" - courses.csv");
+		System.out.println(" - professors.csv");
+		System.out.println(" - projects.csv");
+		System.out.println(" - results.csv");
+		System.out.println("Ingrese la ruta de los datos de prueba (dejar en blanco para usar los datos por defecto): ");
+		String path = reader.nextLine();
+
+		Response<Void> response;
+
+		if (path.isEmpty()) {
+			response = control.loadTestData();
+		} else {
+			response = control.loadTestData(path);
+		}
+
+		System.out.println("\n" + response.getMessage());
 	}
 
 	public void findProjectsWithoutResult() {
-		System.out.println("Projectos sin resultado:");
 		System.out.println(control.getProjectsWithoutResult());
+	}
+
+	public void findResult() {
+		System.out.println(control.listProjects());
+		System.out.println("Ingrese el id del proyecto:");
+		String projectId = reader.nextLine();
+
+		System.out.println("Ingresa el id del resultado:");
+		String resultId = reader.nextLine();
+
+		String info = control.getProjectResult(projectId, resultId);
+
+		System.out.println("\n" + info);
 	}
 
 	public static void main(String[] args) {
@@ -390,7 +423,7 @@ public class Executable {
 		boolean admin = Validator.askYesNo("¿Es administrador? (si/no)");
 		executable.setAdmin(admin);
 
-		while (option != 11) {
+		while (option != 12) {
 			option = executable.showMenu();
 
 			switch (option) {
@@ -401,10 +434,11 @@ public class Executable {
 				case 5 -> executable.findProject();
 				case 6 -> executable.modifyProjectData();
 				case 7 -> executable.addResult();
-				case 8 -> executable.deleteProject();
+				case 8 -> executable.deleteResult();
 				case 9 -> executable.loadTestData();
 				case 10 -> executable.findProjectsWithoutResult();
-				case 11 -> System.out.println("Saliendo...");
+				case 11 -> executable.findResult();
+				case 12 -> System.out.println("Saliendo...");
 				default -> System.out.println("Opción inválida, por favor intente de nuevo.");
 			}
 		}
