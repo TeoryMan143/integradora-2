@@ -249,8 +249,9 @@ public class ProjectsController {
 	}
 
 	/**
+	 * This method adds a result to a project.
 	 * 
-	 * @param projectId
+	 * @param projectId  the id of the project
 	 * @param date
 	 * @param group
 	 * @param url
